@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Hello World</title>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+	<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+	<!-- Dont use this in production -->
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<style>
+		.app-circle {
+			border-radius: 50%;
+			border: 1px solid red;
+			transition: width 0.3s, height 0.3s;
+
+		}
+	</style>
+</head>
+<body>
+	<div id="root"></div>
+	<script type="text/babel">
+		function MyApp() {
+			// value - ссылка на текущее значение setValue - метод для обновления этого значения
+			let [value, setValue] = React.useState(5);
+			let size = value * 20 + "px";
+			let circleStyles = {width: size, height: size};
+			let canDec = value > 1;
+			let canInc = value < 10;
+
+			function increase() {
+				if (canInc)
+				setValue(value + 1);
+			}
+
+			function decrease() {
+				if (canDec)
+				setValue(value - 1);
+			}
+
+			return <div className="container my-2">
+					
+			<div>
+				<button onClick={decrease} className="btn btn-danger app-decrease" disabled={!canDec}>-</button>
+				<strong className="app-value mx-2">{value}</strong>
+				<button onClick={increase} className="btn btn-success app-increase" disabled={!canInc}>+</button>
+			</div>
+			<div className="app-circle my-3" style={circleStyles}></div>
+			{
+				(!canDec || !canInc) && 
+				<div className="alert alert-warning mt-3">
+									<strong>Ошибка!</strong> Нельзя уменьшить или увеличить значение
+									// { !canDec && 'Minimum now' }
+									// { !canInc && 'Maximum now' }
+								</div>
+			}
+			<div>
+
+			</div>
+	</div>
+			
+		}
+
+		const container = document.getElementById('root');
+		const root = ReactDOM.createRoot(container);
+		root.render(<MyApp />);
+	</script>
+</body>
+</html>
