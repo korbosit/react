@@ -22,12 +22,32 @@
 	<div id="root"></div>
 	<script type="text/babel">
 		function MyApp() {
-			// value - ссылка на текущее значение setValue - метод для обновления этого значения
-			let [value, setValue] = React.useState(5);
+
+			let [items, setItems] = React.useState([
+				{min: 1, max: 10, value: 5},
+				{min: 3, max: 7, value: 4},
+				{min: 2, max: 8, value: 6},
+				{min: 4, max: 9, value: 7}
+			]);
+
+			let itemsNodes = items.map((item, i) => <AppCircle value={item.value} min={item.min} max={item.max} key={i}/>);
+
+			return <div>
+				{itemsNodes}
+			</div>;
+		}
+
+		function AppCircle({min, max, value}) {
+			// let {min, max} = props;
+			// let min = props.min;
+			// let max = props.max;
+			// Состояние. value - ссылка на текущее значение setValue - метод для обновления этого значения
+			// Эта строчка будет каждый раз запускаться когда будет ререндериться наш компонент
+			// let [value, setValue] = React.useState(5);
 			let size = value * 20 + "px";
 			let circleStyles = {width: size, height: size};
-			let canDec = value > 1;
-			let canInc = value < 10;
+			let canDec = value > min;
+			let canInc = value < max;
 
 			function increase() {
 				if (canInc)
@@ -68,3 +88,4 @@
 	</script>
 </body>
 </html>
+
